@@ -94,15 +94,18 @@ const App = () => {
                 )
               );
             })
-            .catch(() => {
-              setErrorMessage(`
-          Information of ${newName} has already been removed from the server
-          `);
+            .then(() => {
+              setMessage(`Updated number for ${filteredPerson.name}`);
+              setTimeout(() => {
+                setMessage(null);
+              }, 5000);
+            })
+            .catch((error) => {
+              setErrorMessage(error.response.data.error);
+              setTimeout(() => {
+                setErrorMessage(null);
+              }, 5000);
             });
-          setMessage(`Updated number for ${filteredPerson.name}`);
-          setTimeout(() => {
-            setMessage(null);
-          }, 5000);
         }
       } else {
         personService
@@ -112,12 +115,14 @@ const App = () => {
             setPersonsToShow(persons.concat(returnedPerson));
             setMessage(`Added ${returnedPerson.name}`);
             setTimeout(() => {
-              setMessage(null);
+              setErrorMessage(null);
             }, 5000);
           })
           .catch((error) => {
             setErrorMessage(error.response.data.error);
-            console.log(error.response.data.error);
+            setTimeout(() => {
+              setErrorMessage(null);
+            }, 5000);
           });
       }
     });

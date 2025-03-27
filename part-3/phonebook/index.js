@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.use(express.static('dist'));
 
-morgan.token('body', (req, res) => {
+morgan.token('body', (req) => {
   return JSON.stringify(req.body);
 });
 
@@ -62,7 +62,7 @@ app.get('/api/persons/:id', (request, response) => {
 app.delete('/api/persons/:id', (request, response, next) => {
   const id = request.params.id;
   Person.findByIdAndDelete(id)
-    .then((result) => {
+    .then(() => {
       response.status(204).end();
     })
     .catch((error) => next(error));
@@ -97,7 +97,7 @@ app.put('/api/persons/:id', (request, response, next) => {
   const id = request.params.id;
   console.log(request.body);
   const { name, number } = request.body;
-  Person.findById(request.params.id)
+  Person.findById(id)
     .then((person) => {
       person.name = name;
       person.number = number;
