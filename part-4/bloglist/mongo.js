@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const mongoose = require('mongoose');
 
-const url = process.env.MONGODB_URI;
+const url = process.env.TEST_MONGODB_URI;
 
 mongoose.set('strictQuery', false);
 
@@ -18,13 +18,13 @@ const blogSchema = mongoose.Schema({
 const Blog = mongoose.model('Blog', blogSchema);
 
 const blog = new Blog({
-  title: 'test first blog',
-  author: 'Blabla',
-  url: 'test first URL',
-  like: 5,
+  title: 'test env second blog',
+  author: 'Bleble',
+  url: 'test env second URL',
+  like: 1,
 });
 
 blog.save().then((result) => {
-  console.log('blog saved!');
+  console.log('blog saved!', result);
   mongoose.connection.close();
 });
